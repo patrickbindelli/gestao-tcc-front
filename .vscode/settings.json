@@ -1,0 +1,10 @@
+{
+  "html.validate.styles": false,
+  "files.associations": {
+    "*.scss": "tailwindcss",
+    "*.css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  }
+}
