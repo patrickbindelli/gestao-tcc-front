@@ -1,8 +1,5 @@
 "use client";
-import React from "react";
-import { Sun, Menu } from "lucide-react";
 import ThemeButton from "./ThemeButton";
-import { signOut } from "next-auth/react";
 
 export default function Header() {
   return (
@@ -16,10 +13,7 @@ export default function Header() {
             <span>Fulano de Tal</span>
             <div className="flex gap-[2px]">
               <span>(</span>
-              <button
-                className="underline-offset-4 hover:underline hover:text-indigo-9"
-                onClick={() => signOut()}
-              >
+              <button className="underline-offset-4 hover:underline hover:text-indigo-9">
                 sair
               </button>
               <span>)</span>
