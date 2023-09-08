@@ -1,4 +1,3 @@
-import { getUsefulFiles, getUsefulLinks } from "@/api/api";
 import Divider from "@/components/Divider";
 import { UsefulFile, UsefulLink } from "@/types/types";
 export default async function Utilities() {
