@@ -1,4 +1,4 @@
-import { RegisterForm } from "@/components/Forms/types";
+import { RegisterFormInterface } from "@/components/Forms/types";
 import { UserInfo } from "next-auth";
 import { JWTResponse, RefreshTokenResponse } from "../../types/api";
 import { fetchPost } from "./utils";
@@ -43,7 +43,7 @@ export const activateUser = async (uid: string, token: string) => {
  * @param {string} password - A senha do novo usuário.
  * @returns {Promise<UserInfo>} - Uma promessa que resolve com os detalhes do novo usuário.
  */
-export const register = async (form: RegisterForm) => {
+export const register = async (form: RegisterFormInterface) => {
   const response = await fetchPost<UserInfo>("/auth/users/", form);
   return response;
 };

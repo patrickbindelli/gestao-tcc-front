@@ -4,8 +4,14 @@ import Form from "./Form";
 import useRegister from "@/hooks/client/useRegister";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { RegisterFormInterface } from "./types";
+import { UserInfo } from "next-auth";
 
-export default function RegisterForm() {
+interface Props {
+  action: (form: RegisterFormInterface) => Promise<UserInfo>;
+}
+
+export default function RegisterForm({ action }: Props) {
   const router = useRouter();
   const {
     first_name,
@@ -18,7 +24,7 @@ export default function RegisterForm() {
     isSuccess,
     onChange,
     onSubmit,
-  } = useRegister();
+  } = useRegister(action); // Passado por escadinha pro meu hook que controla os states do formulario
 
   useEffect(() => {
     if (isError) {

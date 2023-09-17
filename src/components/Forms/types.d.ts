@@ -10,7 +10,7 @@ export interface FormConfig {
   required?: boolean;
 }
 
-export interface RegisterForm {
+export interface RegisterFormInterface {
   first_name: string;
   last_name: string;
   email: string;

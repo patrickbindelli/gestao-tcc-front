@@ -1,5 +1,6 @@
 import api from "@/api";
-import { RegisterForm } from "@/components/Forms/types";
+import { RegisterFormInterface } from "@/components/Forms/types";
+import { UserInfo } from "next-auth";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 interface Status {
@@ -8,8 +9,10 @@ interface Status {
   error: boolean;
 }
 
-export default function useRegister() {
-  const [formData, setFormData] = useState<RegisterForm>({
+export default function useRegister(
+  action: (form: RegisterFormInterface) => Promise<UserInfo>
+) {
+  const [formData, setFormData] = useState<RegisterFormInterface>({
     first_name: "",
     last_name: "",
     email: "",
@@ -35,8 +38,7 @@ export default function useRegister() {
     event.preventDefault();
     setStatus((current) => ({ ...current, loading: true }));
 
-    api
-      .register(formData)
+    action(formData) // Chamando a função que vai rodar no servidor passando um state :??????
       .then(() => {
         setStatus((current) => ({ ...current, success: true }));
       })
