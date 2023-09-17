@@ -9,7 +9,7 @@ import { SidebarMenuInterface } from "@/components/SidebarComponents/types";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Login",
+  title: "Gestão de TCCs",
   description: "Plataforma de gestão de TCCs",
 };
 
@@ -52,20 +52,14 @@ export default function RootLayout({
   ];
 
   return (
-    <html lang="en" className="dark">
-      <body className={inter.className}>
-        <Providers>
-          <main className="flex min-h-screen flex-col bg-slate-1 items-center">
-            <Header />
-            <div className="flex py-3 justify-center w-full max-w-screen-2xl">
-              <div className="max-w-[300px] w-full">
-                <Sidebar data={menuData} />
-              </div>
-              <div className="flex p-3 flex-1">{children}</div>
-            </div>
-          </main>
-        </Providers>
-      </body>
-    </html>
+    <main className="flex min-h-screen flex-col bg-slate-1 items-center">
+      <Header />
+      <div className="flex py-3 justify-center w-full max-w-screen-2xl">
+        <div className="max-w-[300px] w-full">
+          <Sidebar data={menuData} />
+        </div>
+        <div className="flex p-3 flex-1">{children}</div>
+      </div>
+    </main>
   );
 }

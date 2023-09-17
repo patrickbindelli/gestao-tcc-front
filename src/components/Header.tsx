@@ -1,7 +1,11 @@
-"use client";
+import { getServerSession } from "next-auth";
+import SignOutButton from "./SignOutButton";
 import ThemeButton from "./ThemeButton";
+import { authOptions } from "@/utils";
 
-export default function Header() {
+export default async function Header() {
+  const session = await getServerSession(authOptions);
+
   return (
     <div className="flex min-w-full items-center justify-center p-3 bg-slate-3 h-12 prose prose-slate">
       <div className="flex items-center justify-between w-full max-w-screen-2xl">
@@ -10,12 +14,10 @@ export default function Header() {
         </div>
         <div className="flex gap-3 items-center text-base">
           <div className="flex gap-1">
-            <span>Fulano de Tal</span>
+            <span>{session?.user.first_name}</span>
             <div className="flex gap-[2px]">
               <span>(</span>
-              <button className="underline-offset-4 hover:underline hover:text-indigo-9">
-                sair
-              </button>
+              <SignOutButton />
               <span>)</span>
             </div>
           </div>

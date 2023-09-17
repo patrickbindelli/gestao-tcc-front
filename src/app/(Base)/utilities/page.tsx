@@ -1,5 +1,5 @@
 import Divider from "@/components/Divider";
-import { UsefulFile, UsefulLink } from "@/types/types";
+import { UsefulFile, UsefulLink } from "../../../../types/types";
 export default async function Utilities() {
   const fileData: UsefulFile[] = [
     { id: 1, file: "#", title: "Arquivo Sample" },
