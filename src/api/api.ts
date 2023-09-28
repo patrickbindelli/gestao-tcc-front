@@ -1,6 +1,7 @@
 import { UserInfo } from "next-auth";
 import { Invite, Project } from "../../types/api";
 import { fetchAuthenticatedGet } from "./utils";
+import { UsefulFile, UsefulLink } from "../../types/types";
 
 /**
  * Obtém as informações do usuário logado.
@@ -9,9 +10,10 @@ import { fetchAuthenticatedGet } from "./utils";
  * @returns {Promise<UserInfo>} - Uma promessa que resolve com as informações do usuário logado.
  */
 export const getLoggedUser = async (access?: string) => {
-  return await fetchAuthenticatedGet<UserInfo>("/auth/users/me", {
-    Authorization: `Bearer ${access || ""}`,
-  });
+  const headers: HeadersInit = access
+    ? { Authorization: `Bearer ${access}` }
+    : {};
+  return await fetchAuthenticatedGet<UserInfo>("/auth/users/me", headers);
 };
 
 /**
@@ -19,8 +21,34 @@ export const getLoggedUser = async (access?: string) => {
  *
  * @returns {Promise<Project[]>} - Uma promessa que resolve com uma lista de projetos de pesquisa.
  */
-export const getUserResearchs = async () => {
+export const getApprovedResearchs = async () => {
+  return await fetchAuthenticatedGet<Project[]>("/research/projects/approved/");
+};
+
+/**
+ * Obtém os projetos de pesquisa associados ao usuário.
+ *
+ * @returns {Promise<Project[]>} - Uma promessa que resolve com uma lista de projetos de pesquisa.
+ */
+export const getResearchs = async () => {
   return await fetchAuthenticatedGet<Project[]>("/research/projects/");
+};
+
+export const getUsefulFiles = async () => {
+  return await fetchAuthenticatedGet<UsefulFile[]>("/utilities/files/");
+};
+
+export const getUsefulLinks = async () => {
+  return await fetchAuthenticatedGet<UsefulLink[]>("/utilities/links/");
+};
+
+/**
+ * Obtém os projetos de pesquisa associados ao usuário.
+ *
+ * @returns {Promise<Project[]>} - Uma promessa que resolve com uma lista de projetos de pesquisa.
+ */
+export const getOnGoingResearchs = async () => {
+  return await fetchAuthenticatedGet<Project[]>("/research/projects/ongoing/");
 };
 
 /**

@@ -5,9 +5,10 @@ import SortableHeader from "./SortableHeader";
 interface Props {
   columns: Columns[];
   data: Project[];
+  edit?: boolean;
 }
 
-export default function ThesisTable({ data, columns }: Props) {
+export default function ThesisTable({ data, columns, edit = true }: Props) {
   return (
     <>
       <div className="overflow-x-auto max-h-[500px] w-full">
@@ -47,11 +48,14 @@ export default function ThesisTable({ data, columns }: Props) {
                       {/* <span>Banca: {item.commitee}</span> */}
                     </div>
                   </td>
-                  <td className="border border-slate-4 px-4 py-2 text-center">
-                    <button className="text-indigo-9 hover:text-indigo-10 hover:underline underline-offset-2">
-                      Editar
-                    </button>
-                  </td>
+
+                  {edit && (
+                    <td className="border border-slate-4 px-4 py-2 text-center">
+                      <button className="text-indigo-9 hover:text-indigo-10 hover:underline underline-offset-2">
+                        Editar
+                      </button>
+                    </td>
+                  )}
                 </tr>
               );
             })}

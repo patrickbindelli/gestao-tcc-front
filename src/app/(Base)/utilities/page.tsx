@@ -1,17 +1,9 @@
 import Divider from "@/components/Divider";
 import { UsefulFile, UsefulLink } from "../../../../types/types";
+import { getUsefulFiles, getUsefulLinks } from "@/api/api";
 export default async function Utilities() {
-  const fileData: UsefulFile[] = [
-    { id: 1, file: "#", title: "Arquivo Sample" },
-    { id: 1, file: "#", title: "Arquivo Sample" },
-    { id: 1, file: "#", title: "Arquivo Sample" },
-  ];
-
-  const linksData: UsefulLink[] = [
-    { id: 1, url: "#", title: "Link Sample" },
-    { id: 1, url: "#", title: "Link Sample" },
-    { id: 1, url: "#", title: "Link Sample" },
-  ];
+  const fileData: UsefulFile[] = await getUsefulFiles();
+  const linksData: UsefulLink[] = await getUsefulLinks();
 
   return (
     <main className="flex flex-1 flex-col gap-3">
@@ -32,6 +24,8 @@ export default async function Utilities() {
                 {item.title}
               </a>
             ))}
+
+            {!linksData.length && <span>Nenhum arquivo disponível</span>}
           </div>
         </div>
         <div className="flex flex-col gap-3 w-full">
@@ -50,6 +44,8 @@ export default async function Utilities() {
                 {item.title}
               </a>
             ))}
+
+            {!linksData.length && <span>Nenhum link disponível</span>}
           </div>
         </div>
       </div>

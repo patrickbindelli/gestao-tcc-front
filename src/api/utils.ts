@@ -49,7 +49,13 @@ export const fetchGet = async <T = void>(
       headers: { ...defaultHeaders, ...customHeaders },
     });
 
-    // lk
+    if (response.status === 204) {
+      return {} as T; // Retorna um objeto vazio ou adapte de acordo com sua necessidade
+    }
+
+    if (!response.ok) {
+      throw new Error(`Erro na requisição: ${response.status}`);
+    }
 
     const data: T = await response.json();
     return data;
@@ -103,7 +109,9 @@ export const fetchPost = async <T = void>(
       body: JSON.stringify(body),
     });
 
-    console.log(apiRoute);
+    if (response.status === 204) {
+      return {} as T; // Retorna um objeto vazio ou adapte de acordo com sua necessidade
+    }
 
     if (!response.ok) {
       throw new Error(`Erro na requisição: ${response.status}`);
@@ -130,4 +138,39 @@ export const fetchAuthenticatedPost = async <T = void>(
 ) => {
   const authenticationHeaders = await getAuthenticationHeaders();
   return await fetchPost<T>(apiRoute, body, authenticationHeaders);
+};
+
+export const fetchPut = async <T = void>(
+  apiRoute: string,
+  body: object,
+  customHeaders?: HeadersInit
+) => {
+  try {
+    const response = await fetch(`${baseUrl}${apiRoute}`, {
+      method: "PUT",
+      headers: { ...defaultHeaders, ...customHeaders },
+      body: JSON.stringify(body),
+    });
+
+    if (response.status === 204) {
+      return {} as T; // Retorna um objeto vazio ou adapte de acordo com sua necessidade
+    }
+
+    if (!response.ok) {
+      throw new Error(`Erro na requisição: ${response.status}`);
+    }
+
+    const data: T = await response.json();
+    return data;
+  } catch (err) {
+    throw new Error(`Erro na requisição: ${err}`);
+  }
+};
+
+export const fetchAuthenticatedPut = async <T = void>(
+  apiRoute: string,
+  body: object
+) => {
+  const authenticationHeaders = await getAuthenticationHeaders();
+  return await fetchPut<T>(apiRoute, body, authenticationHeaders);
 };

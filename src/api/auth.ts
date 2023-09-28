@@ -1,7 +1,15 @@
 import { RegisterFormInterface } from "@/components/Forms/types";
 import { UserInfo } from "next-auth";
 import { JWTResponse, RefreshTokenResponse } from "../../types/api";
-import { fetchPost } from "./utils";
+import {
+  fetchAuthenticatedPost,
+  fetchAuthenticatedPut,
+  fetchPost,
+} from "./utils";
+import {
+  ChangePasswordFormInterface,
+  ProfileFormInterface,
+} from "../../types/forms";
 
 /**
  * Realiza uma solicitação de login autenticada, obtendo um token JWT.
@@ -65,5 +73,21 @@ export const refreshAccessToken = async (refresh: string) => {
     body
   );
 
-  return response.access;
+  return response?.access;
+};
+
+export const updateUser = (formData: ProfileFormInterface) => {
+  const response = fetchAuthenticatedPut<ProfileFormInterface>(
+    `/auth/users/me/`,
+    formData
+  );
+  return response;
+};
+
+export const changePassword = (formData: ChangePasswordFormInterface) => {
+  const response = fetchAuthenticatedPost<void>(
+    `/auth/users/set_password/`,
+    formData
+  );
+  return response;
 };

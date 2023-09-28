@@ -35,7 +35,7 @@ export default function RootLayout({
         {
           label: "Lista de TCCs",
           icon: <List size={20} />,
-          href: "/tcc",
+          href: "/list",
         },
         {
           label: "Utilidades",

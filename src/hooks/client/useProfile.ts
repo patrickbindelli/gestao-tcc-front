@@ -1,7 +1,7 @@
-import api from "@/api";
-import { RegisterFormInterface } from "@/components/Forms/types";
-import { UserInfo } from "next-auth";
+import { signIn } from "next-auth/react";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { ProfileFormInterface } from "../../../types/forms";
+import { UserInfo } from "next-auth";
 
 interface Status {
   loading: boolean;
@@ -9,26 +9,23 @@ interface Status {
   error: boolean;
 }
 
-interface RegisterAction {
-  (form: RegisterFormInterface): Promise<UserInfo>;
+interface ProfileFormAction {
+  (form: ProfileFormInterface): Promise<ProfileFormInterface>;
 }
 
-export default function useRegister(action: RegisterAction) {
-  const [formData, setFormData] = useState<RegisterFormInterface>({
-    first_name: "",
-    last_name: "",
-    email: "",
-    password: "",
-    re_password: "",
-  });
-
-  const { first_name, last_name, email, password, re_password } = formData;
+export default function useProfile(
+  initialData: UserInfo,
+  action?: ProfileFormAction
+) {
+  const [formData, setFormData] = useState<ProfileFormInterface>(initialData);
 
   const [status, setStatus] = useState<Status>({
     loading: false,
     success: false,
     error: false,
   });
+
+  const { first_name, last_name, email } = formData;
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -40,18 +37,12 @@ export default function useRegister(action: RegisterAction) {
     event.preventDefault();
     setStatus((current) => ({ ...current, loading: true }));
 
-    action(formData) // Chamando a função que vai rodar no servidor passando um state :??????
+    action?.(formData)
       .then(() => {
         setStatus((current) => ({ ...current, success: true }));
       })
-      .catch((err) => {
-        console.log(err);
-
-        setStatus((current) => ({
-          ...current,
-          success: false,
-          error: true,
-        }));
+      .catch(() => {
+        setStatus((current) => ({ ...current, success: false, error: true }));
       })
       .finally(() => {
         setStatus((current) => ({ ...current, loading: false }));
@@ -59,14 +50,12 @@ export default function useRegister(action: RegisterAction) {
   };
 
   return {
+    email,
     first_name,
     last_name,
-    email,
-    password,
-    re_password,
     isLoading: status.loading,
-    isError: status.error,
     isSuccess: status.success,
+    isError: status.error,
     onChange,
     onSubmit,
   };
