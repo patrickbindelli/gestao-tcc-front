@@ -8,7 +8,7 @@ export default function Login() {
   const create = async (form: RegisterFormInterface) => {
     // Será executado no servidor
     "use server";
-    return api.register(form);
+    return api.authentication.register(form);
   };
 
   return (

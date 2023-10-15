@@ -1,4 +1,3 @@
-import api from "@/api";
 import { RegisterFormInterface } from "@/components/Forms/types";
 import { UserInfo } from "next-auth";
 import { ChangeEvent, FormEvent, useState } from "react";

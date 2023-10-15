@@ -1,9 +1,9 @@
 import Divider from "@/components/Divider";
 import { UsefulFile, UsefulLink } from "../../../../types/types";
-import { getUsefulFiles, getUsefulLinks } from "@/api/api";
+import api from "@/api";
 export default async function Utilities() {
-  const fileData: UsefulFile[] = await getUsefulFiles();
-  const linksData: UsefulLink[] = await getUsefulLinks();
+  const fileData: UsefulFile[] = await api.utilities.getUsefulFiles();
+  const linksData: UsefulLink[] = await api.utilities.getUsefulLinks();
 
   return (
     <main className="flex flex-1 flex-col gap-3">

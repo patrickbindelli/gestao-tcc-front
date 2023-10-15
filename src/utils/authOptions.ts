@@ -1,9 +1,9 @@
+import api from "@/api";
 import { NextAuthOptions, User } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
-import refreshAccessToken from "./refreshTokenMessage";
-import api from "@/api";
 import getExpiresIn from "./getExpiresIn";
+import refreshAccessToken from "./refreshTokenMessage";
 
 const authOptions: NextAuthOptions = {
   session: {
@@ -18,11 +18,14 @@ const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, req) {
         if (credentials) {
-          const auth = await api.login(credentials.email, credentials.password);
+          const auth = await api.authentication.login(
+            credentials.email,
+            credentials.password
+          );
 
           if (auth) {
             try {
-              const userInfo = await api.getLoggedUser(auth.access);
+              const userInfo = await api.users.getLoggedUser(auth.access);
 
               const user: User = {
                 id: "1",

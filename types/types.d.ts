@@ -28,3 +28,19 @@ export interface Thesis {
     commitee: string;
   };
 }
+
+export type Research = {
+  id: number;
+  title: string;
+  description: string;
+  author: Author;
+  advisor_name: string;
+  subject: string;
+  approved: boolean;
+  approved_at: date;
+  committee: string;
+  defense_date: date;
+  invite: number;
+  responsible: Responsible;
+  file: string;
+};

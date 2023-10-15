@@ -13,7 +13,7 @@ export default function useVerifyUser(uid: string, token: string) {
   });
 
   const verifyUser = useCallback(async () => {
-    await api
+    await api.authentication
       .activateUser(uid, token)
       .then(() => {
         setStatus((current) => ({ ...current, verified: true }));

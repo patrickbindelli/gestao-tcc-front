@@ -6,7 +6,9 @@ async function refreshAccessToken(token: JWT) {
   console.log("Refreshing token");
 
   try {
-    const refreshedToken = await api.refreshAccessToken(token.refresh);
+    const refreshedToken = await api.authentication.refreshAccessToken(
+      token.refresh
+    );
 
     console.log("RefreshedToken: ", refreshedToken);
 

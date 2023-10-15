@@ -4,7 +4,7 @@ import { Columns } from "../../../../types/types";
 import api from "@/api";
 
 export default async function List() {
-  const projects = await api.getResearchs();
+  const projects = await api.research.getResearchs();
 
   const projectsColumns: Columns[] = [
     {

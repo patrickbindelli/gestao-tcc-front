@@ -6,10 +6,10 @@ import ThesisTable from "@/components/ThesisTable";
 import { Columns } from "../../../types/types";
 
 export default async function Home() {
-  const approved = await api.getApprovedResearchs();
-  const ongoing = await api.getOnGoingResearchs();
+  const approved = await api.research.getApprovedResearchs();
+  const ongoing = await api.research.getOnGoingResearchs();
 
-  const invited = await api.getUserInvites();
+  const invited = await api.research.getUserInvites();
 
   const projectsColumns: Columns[] = [
     {
@@ -23,13 +23,13 @@ export default async function Home() {
       sortable: true,
     },
     {
-      label: "Autor(es)",
-      accessor: "authors",
+      label: "Autor",
+      accessor: "author",
       sortable: false,
     },
     {
       label: "Disciplina",
-      accessor: "course",
+      accessor: "subject",
       sortable: true,
     },
     {

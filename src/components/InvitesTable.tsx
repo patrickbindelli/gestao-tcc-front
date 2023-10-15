@@ -1,9 +1,16 @@
 import React from "react";
-import { Invite } from "../../types/api";
+import { Invite } from "api";
+import { format, parseISO } from "date-fns";
 
 interface Props {
   data: Invite[];
 }
+
+const handleDate = (date: string) => {
+  const parsedDate = parseISO(date);
+  return format(parsedDate, "dd/MM/yyyy HH:mm:ss");
+};
+
 export default function InvitesTable({ data }: Props) {
   return (
     <>
@@ -30,13 +37,21 @@ export default function InvitesTable({ data }: Props) {
                     {item.sender_name}
                   </td>
                   <td className="border-b border-l border-r border-slate-5 p-2 whitespace-nowrap">
-                    {item.created_at}
+                    {handleDate(item.created_at)}
                   </td>
                   <td className="border-b border-l border-r border-slate-5 p-2 whitespace-nowrap">
-                    {/* {item.expires_at} */}
+                    {handleDate(item.limit_date)}
                   </td>
                   <td className="border-b border-l border-r border-slate-5 p-2 whitespace-nowrap">
-                    <span className="text-green-9">{item.accepted}</span>
+                    <span
+                      className={`${
+                        item.status === "Pendente"
+                          ? "text-red-9"
+                          : "text-green-9"
+                      }`}
+                    >
+                      {item.status}
+                    </span>
                   </td>
                   <td className="border border-slate-4 px-4 py-2 text-center">
                     <button className="text-indigo-9 hover:text-indigo-10 hover:underline underline-offset-2">

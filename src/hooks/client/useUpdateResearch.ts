@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { ChangePasswordFormInterface } from "../../../types/forms";
+import { ResearchUpdateFormType } from "../../../types/api";
+import { Research } from "../../../types/types";
 
 interface Status {
   loading: boolean;
@@ -7,14 +8,18 @@ interface Status {
   error: boolean;
 }
 
-interface ChangePasswordFormAction {
-  (form: ChangePasswordFormInterface): Promise<void>;
+interface ChangeResearchFormAction {
+  (form: ResearchUpdateFormType): Promise<Research>;
 }
 
-export default function useChangePassword(action?: ChangePasswordFormAction) {
-  const [formData, setFormData] = useState({
-    current_password: "",
-    new_password: "",
+export default function useUpdateResearch(
+  initialData: Research,
+  action: ChangeResearchFormAction
+) {
+  const [formData, setFormData] = useState<ResearchUpdateFormType>({
+    title: initialData.title,
+    description: initialData.description,
+    file: undefined,
   });
 
   const [status, setStatus] = useState<Status>({
@@ -23,9 +28,11 @@ export default function useChangePassword(action?: ChangePasswordFormAction) {
     error: false,
   });
 
-  const { new_password, current_password } = formData;
+  const { title, description, file } = formData;
 
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = event.target;
 
     setFormData({ ...formData, [name]: value });
@@ -48,8 +55,9 @@ export default function useChangePassword(action?: ChangePasswordFormAction) {
   };
 
   return {
-    new_password,
-    current_password,
+    title,
+    description,
+    file,
     isLoading: status.loading,
     isSuccess: status.success,
     isError: status.error,

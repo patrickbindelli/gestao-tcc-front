@@ -9,28 +9,17 @@ import {
 import ChangePasswordForm from "@/components/Forms/ChangePasswordForm";
 
 export default async function Home() {
-  const user = await api.getLoggedUser();
+  const user = await api.users.getLoggedUser();
 
   const update = async (formData: ProfileFormInterface) => {
     "use server";
-    return api.updateUser(formData);
+    return api.authentication.updateUser(formData);
   };
 
   const updatePassword = async (formData: ChangePasswordFormInterface) => {
     "use server";
-    return api.changePassword(formData);
+    return api.authentication.changePassword(formData);
   };
-
-  const cursos = [
-    {
-      label: "Sistemas de Informação",
-      value: 1,
-    },
-    {
-      label: "Administração",
-      value: 2,
-    },
-  ];
 
   return (
     <main className="flex flex-col gap-3 flex-1 w-full">
