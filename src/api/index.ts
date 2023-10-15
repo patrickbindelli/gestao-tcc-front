@@ -1,6 +1,13 @@
-import * as authExports from "./auth";
-import * as apiExports from "./api";
+import * as authenticationModule from "./modules/auth";
+import * as researchModule from "./modules/researchs";
+import * as usersModule from "./modules/users";
+import * as utilitiesModule from "./modules/utilities";
 
-const api = { ...authExports, ...apiExports };
+const api = {
+  authentication: authenticationModule,
+  research: researchModule,
+  users: usersModule,
+  utilities: utilitiesModule,
+};
 
 export default api;
