@@ -1,7 +1,7 @@
 import { Invite, ResearchResponse, ResearchUpdateFormType } from "api";
 import {
   fetchAuthenticatedGetRequest,
-  fetchAuthenticatedPutRequest,
+  fetchAuthenticatedPatchRequest,
 } from "../utils";
 
 export const getApprovedResearchs = async () => {
@@ -32,9 +32,12 @@ export const getResearchById = async (id: string) => {
   );
 };
 
-export const putResearch = async (params: ResearchUpdateFormType) => {
-  return await fetchAuthenticatedPutRequest<ResearchResponse>(
-    `/research/projects/`,
+export const patchResearch = async (
+  id: string,
+  params: ResearchUpdateFormType
+) => {
+  return await fetchAuthenticatedPatchRequest<ResearchResponse>(
+    `/research/projects/${id}/`,
     params
   );
 };

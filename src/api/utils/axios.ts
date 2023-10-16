@@ -39,7 +39,7 @@ export const axiosApiRequest = async <T>(
     })
     .catch((err) => {
       console.error(err);
-      throw new Error(`Erro na requisição: ${err}`);
+      throw new Error(`Erro na requisição}`);
     });
 
   return response;
@@ -68,7 +68,7 @@ export const axiosAuthenticatedApiRequest = async <T>(
     })
     .catch((err) => {
       console.error(err);
-      throw new Error(`Erro na requisição: ${err}`);
+      throw new Error(`Erro na requisição`);
     });
 
   return response;

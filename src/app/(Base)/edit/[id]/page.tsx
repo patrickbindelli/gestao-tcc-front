@@ -15,7 +15,7 @@ export default async function EditResearch({ params }: Props) {
 
   const updateResearch = async (formData: ResearchUpdateFormType) => {
     "use server";
-    return api.research.putResearch(formData);
+    return api.research.patchResearch(id, formData);
   };
 
   return (

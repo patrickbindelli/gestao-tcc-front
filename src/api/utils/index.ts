@@ -46,3 +46,11 @@ export const fetchAuthenticatedPutRequest = async <T = void>(
 ) => {
   return axiosAuthenticatedApiRequest("PUT", url, body, customHeaders);
 };
+
+export const fetchAuthenticatedPatchRequest = async <T = void>(
+  url: string,
+  body: any,
+  customHeaders?: ApiHeaders
+) => {
+  return axiosAuthenticatedApiRequest("PATCH", url, body, customHeaders);
+};
