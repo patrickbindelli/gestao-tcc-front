@@ -32,10 +32,7 @@ export const getResearchById = async (id: string) => {
   );
 };
 
-export const patchResearch = async (
-  id: string,
-  params: ResearchUpdateFormType
-) => {
+export const patchResearch = async (id: string, params: FormData) => {
   return await fetchAuthenticatedPatchRequest<ResearchResponse>(
     `/research/projects/${id}/`,
     params

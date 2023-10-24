@@ -35,9 +35,9 @@ declare module "api" {
   export type ResearchResponse = Research;
 
   export interface ResearchUpdateFormType {
-    title?: string;
-    description?: string;
-    file?: File;
+    title?: FormDataEntryValue;
+    description?: FormDataEntryValue;
+    file?: FormDataEntryValue;
   }
 
   export interface Invite {

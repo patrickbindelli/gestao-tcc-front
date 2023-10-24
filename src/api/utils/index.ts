@@ -1,6 +1,10 @@
 import { ApiHeaders } from "api";
 import { axiosApiRequest, axiosAuthenticatedApiRequest } from "./axios";
 
+const defaultFormHeaders = {
+  "Content-Type": "multipart/form-data",
+};
+
 export const fetchGetRequest = async (
   url: string,
   customHeaders?: ApiHeaders
@@ -20,7 +24,10 @@ export const fetchPostRequest = async <T>(
   body: any,
   customHeaders?: ApiHeaders
 ) => {
-  return axiosApiRequest("POST", url, body, customHeaders);
+  return axiosApiRequest("POST", url, body, {
+    ...defaultFormHeaders,
+    ...customHeaders,
+  });
 };
 
 export const fetchAuthenticatedPostRequest = async <T = void>(
@@ -28,7 +35,10 @@ export const fetchAuthenticatedPostRequest = async <T = void>(
   body: any,
   customHeaders?: ApiHeaders
 ) => {
-  return axiosAuthenticatedApiRequest("POST", url, body, customHeaders);
+  return axiosAuthenticatedApiRequest("POST", url, body, {
+    ...defaultFormHeaders,
+    ...customHeaders,
+  });
 };
 
 export const fetchPutRequest = async <T = void>(
@@ -36,7 +46,10 @@ export const fetchPutRequest = async <T = void>(
   body: any,
   customHeaders?: ApiHeaders
 ) => {
-  return axiosApiRequest("PUT", url, body, customHeaders);
+  return axiosApiRequest("PUT", url, body, {
+    ...defaultFormHeaders,
+    ...customHeaders,
+  });
 };
 
 export const fetchAuthenticatedPutRequest = async <T = void>(
@@ -44,7 +57,10 @@ export const fetchAuthenticatedPutRequest = async <T = void>(
   body: any,
   customHeaders?: ApiHeaders
 ) => {
-  return axiosAuthenticatedApiRequest("PUT", url, body, customHeaders);
+  return axiosAuthenticatedApiRequest("PUT", url, body, {
+    ...defaultFormHeaders,
+    ...customHeaders,
+  });
 };
 
 export const fetchAuthenticatedPatchRequest = async <T = void>(
@@ -52,5 +68,8 @@ export const fetchAuthenticatedPatchRequest = async <T = void>(
   body: any,
   customHeaders?: ApiHeaders
 ) => {
-  return axiosAuthenticatedApiRequest("PATCH", url, body, customHeaders);
+  return axiosAuthenticatedApiRequest("PATCH", url, body, {
+    ...defaultFormHeaders,
+    ...customHeaders,
+  });
 };

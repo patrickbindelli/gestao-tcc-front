@@ -47,12 +47,7 @@ export default function FormInput({
         );
       case "file":
         return (
-          <FileInput
-            id="multiple_files"
-            type="file"
-            onChange={onChange}
-            value={value}
-          />
+          <FileInput id={id} type="file" onChange={onChange} value={value} />
         );
       default:
         return (
