@@ -1,24 +1,20 @@
 import Container from "@/components/Container";
 
 import api from "@/api";
+import PasswordForm from "@/components/Forms/PasswordForm";
 import ProfileForm from "@/components/Forms/ProfileForm";
-import {
-  ChangePasswordFormInterface,
-  ProfileFormInterface,
-} from "../../../../types/forms";
-import ChangePasswordForm from "@/components/Forms/ChangePasswordForm";
 
 export default async function Home() {
   const user = await api.users.getLoggedUser();
 
-  const update = async (formData: ProfileFormInterface) => {
+  const update = async (formData: FormData) => {
     "use server";
-    return api.authentication.updateUser(formData);
+    await api.authentication.updateUser(formData);
   };
 
-  const updatePassword = async (formData: ChangePasswordFormInterface) => {
+  const updatePassword = async (formData: FormData) => {
     "use server";
-    return api.authentication.changePassword(formData);
+    await api.authentication.changePassword(formData);
   };
 
   return (
@@ -29,7 +25,7 @@ export default async function Home() {
       </Container>
 
       <Container>
-        <ChangePasswordForm action={updatePassword} />
+        <PasswordForm action={updatePassword} />
       </Container>
     </main>
   );

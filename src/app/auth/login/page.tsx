@@ -1,6 +1,7 @@
 import LoginForm from "@/components/Forms/LoginForm";
 import Link from "next/link";
 import React, { useState } from "react";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
   return (

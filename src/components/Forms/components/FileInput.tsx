@@ -11,11 +11,9 @@ interface Props {
 
 export const FileInput = ({ id, onChange, value }: Props) => {
   const fileButtonStyle =
-    "file:rounded-none file:bg-slate-7 file:border-0 hover:file:bg-slate-8 hover:file:cursor-pointer file:h-10 file:mr-2 file:text-base";
+    "file:rounded-none file:bg-slate-7 file:border-0 hover:file:bg-slate-8 hover:file:cursor-pointer file:h-8 file:mr-2 file:text-base";
 
   const fileName = value ? value.split("/").pop() : "";
-
-  console.log(fileName);
 
   return (
     <div className="flex flex-col gap-3">

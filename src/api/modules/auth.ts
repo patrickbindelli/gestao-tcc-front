@@ -48,7 +48,7 @@ export const refreshAccessToken = async (refresh: string) => {
   return response?.access;
 };
 
-export const updateUser = (formData: ProfileFormInterface) => {
+export const updateUser = (formData: FormData) => {
   const response = fetchAuthenticatedPutRequest<ProfileFormInterface>(
     `/auth/users/me/`,
     formData
@@ -56,7 +56,7 @@ export const updateUser = (formData: ProfileFormInterface) => {
   return response;
 };
 
-export const changePassword = (formData: ChangePasswordFormInterface) => {
+export const changePassword = (formData: FormData) => {
   const response = fetchAuthenticatedPostRequest<void>(
     `/auth/users/set_password/`,
     formData

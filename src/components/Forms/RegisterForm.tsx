@@ -1,87 +1,94 @@
 "use client";
-import React, { useEffect } from "react";
-import Form from "./Form";
-import useRegister from "@/hooks/client/useRegister";
-import { toast } from "react-toastify";
+import useForm from "@/hooks/useForm";
+import { FormConfig } from "forms";
 import { useRouter } from "next/navigation";
-import { RegisterFormInterface } from "./types";
-import { UserInfo } from "next-auth";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import BaseForm from "./BaseForm";
 
 interface Props {
-  action: (form: RegisterFormInterface) => Promise<UserInfo>;
+  action: (formData: FormData) => Promise<void>;
+}
+
+interface RegisterForm {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  re_password: string;
 }
 
 export default function RegisterForm({ action }: Props) {
+  const initialData: RegisterForm = {
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    re_password: "",
+  };
+
   const router = useRouter();
-  const {
-    first_name,
-    last_name,
-    email,
-    password,
-    re_password,
-    isLoading,
-    isError,
-    isSuccess,
-    onChange,
-    onSubmit,
-  } = useRegister(action); // Passado por escadinha pro meu hook que controla os states do formulario
+  const { formState, status, onChange, onSubmitAction } = useForm(
+    initialData,
+    action
+  ); // Passado por escadinha pro meu hook que controla os states do formulario
 
   useEffect(() => {
-    if (isError) {
+    if (status.error) {
       toast.error("Erro ao cadastrar usuário");
     }
 
-    if (isSuccess) {
+    if (status.success) {
       toast.success("Cheque o email para verificar seu usuário");
       router.push("/auth/login");
     }
-  }, [isSuccess, isError, router]);
+  }, [status, router]);
 
-  const config = [
+  const formConfig: FormConfig = [
     {
-      labelText: "First name",
-      labelId: "first_name",
+      label: "First name",
+      id: "first_name",
       type: "text",
-      value: first_name,
+      value: formState.first_name,
       required: true,
     },
     {
-      labelText: "Last name",
-      labelId: "last_name",
+      label: "Last name",
+      id: "last_name",
       type: "text",
-      value: last_name,
+      value: formState.last_name,
       required: true,
     },
     {
-      labelText: "Email address",
-      labelId: "email",
+      label: "Email address",
+      id: "email",
       type: "email",
-      value: email,
+      value: formState.email,
       required: true,
     },
     {
-      labelText: "Password",
-      labelId: "password",
+      label: "Password",
+      id: "password",
       type: "password",
-      value: password,
+      value: formState.password,
       required: true,
     },
     {
-      labelText: "Confirm password",
-      labelId: "re_password",
+      label: "Confirm password",
+      id: "re_password",
       type: "password",
-      value: re_password,
+      value: formState.re_password,
       required: true,
     },
   ];
 
   return (
-    <Form
-      config={config}
-      isLoading={isLoading}
+    <BaseForm
+      config={formConfig}
+      isLoading={status.loading}
       btnText="Cadastrar"
       onChange={onChange}
-      onSubmit={onSubmit}
+      onSubmit={onSubmitAction}
     />
   );
 }

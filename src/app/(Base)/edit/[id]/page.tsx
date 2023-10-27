@@ -1,7 +1,6 @@
 import api from "@/api";
 import Container from "@/components/Container";
-import { ResearchUpdateFormType } from "../../../../../types/api";
-import ResearchForm from "./components/ResearchForm";
+import ResearchForm from "@/components/Forms/components/ResearchForm";
 
 interface Props {
   params: {
@@ -15,6 +14,12 @@ export default async function EditResearch({ params }: Props) {
 
   const create = async (formData: FormData) => {
     "use server";
+
+    const file = formData.get("file") as File;
+    if (file.size == 0) {
+      formData.delete("file");
+    }
+
     await api.research.patchResearch(id, formData);
   };
 

@@ -17,6 +17,10 @@ interface Props {
   required?: boolean;
   readonly?: boolean;
   rows?: number;
+  link?: {
+    linkText: string;
+    linkUrl: string;
+  };
 }
 
 export default function FormInput({
@@ -28,6 +32,7 @@ export default function FormInput({
   required = false,
   readonly = false,
   rows,
+  link,
 }: Props) {
   const handleInputType = (type: HTMLInputTypeAttributeCustom) => {
     if (readonly)
@@ -64,13 +69,25 @@ export default function FormInput({
   };
 
   return (
-    <div className="gap-1">
-      <label
-        htmlFor={id}
-        className="block w-full max-w-xs text-base font-medium leading-6 text-slate-12"
-      >
-        {label}
-      </label>
+    <div className="flex flex-col">
+      <div className="flex items-center justify-between">
+        <label
+          htmlFor={id}
+          className="block text-sm font-medium leading-6 text-slate-12"
+        >
+          {label}
+        </label>
+        {link && (
+          <div className="text-sm">
+            <Link
+              href={link.linkUrl}
+              className="font-semibold text-indigo-9 hover:text-indigo-10"
+            >
+              {link.linkText}
+            </Link>
+          </div>
+        )}
+      </div>
       <div className="mt-2 w-full">{handleInputType(type)}</div>
     </div>
   );

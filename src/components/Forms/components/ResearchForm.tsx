@@ -1,33 +1,45 @@
 "use client";
-import { useState } from "react";
-import { ResearchUpdateFormType } from "../../../../../../types/api";
-import { Research } from "../../../../../../types/types";
-import FormInput from "./FormInput";
+import Spinner from "@/components/Spinner";
+import useForm from "@/hooks/useForm";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
-interface ChangeResearchFormAction {
-  (form: ResearchUpdateFormType): Promise<Research>;
-}
+import { Research } from "default";
+import FileButton from "./FileButton";
+import FormInput from "./FormInput";
 
 interface Props {
   btnText: string;
-  action: (formdata: FormData) => void;
-  initialData?: Research;
+  action: (formdata: FormData) => Promise<void>;
+  initialData: Research;
 }
 
 export default function ResearchForm({ btnText, action, initialData }: Props) {
-  const [form, setForm] = useState({
-    title: initialData?.title,
-    description: initialData?.description,
-  });
+  const router = useRouter();
+  const { formState, status, onChange, onSubmitAction } = useForm(
+    initialData,
+    action
+  );
 
-  const { title, description } = form;
+  useEffect(() => {
+    if (status.error) {
+      toast.error("Não foi possível atualizar o projeto :(");
+    }
 
-  const onChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { id, value } = event.target;
-    setForm({ ...form, [id]: value });
-  };
+    if (status.success) {
+      toast.success("Salvo");
+      router.refresh();
+    }
+  }, [status, router]);
+
+  useEffect(() => {
+    if (status.loading) {
+      console.log("Loading...");
+    } else {
+      console.log("Loaded");
+    }
+  }, [status]);
 
   const config = [
     {
@@ -35,49 +47,56 @@ export default function ResearchForm({ btnText, action, initialData }: Props) {
       labelId: "title",
       type: "text",
       required: true,
-      value: title,
+      value: formState.title,
     },
     {
       labelText: "Descrição",
       labelId: "description",
       type: "textarea",
       required: true,
-      value: description,
+      value: formState.description,
     },
     {
       labelText: "Autor",
       labelId: "author",
       readonly: true,
+      value: initialData.author.name,
     },
     {
       labelText: "Orientador",
       labelId: "author",
       readonly: true,
+      value: initialData.advisor_name,
     },
     {
       labelText: "Professor Responsável",
       labelId: "author",
       readonly: true,
+      value: initialData.responsible.name,
     },
     {
       labelText: "Tipo",
       labelId: "author",
       readonly: true,
+      value: initialData.subject,
     },
     {
       labelText: "Banca",
       labelId: "author",
       readonly: true,
+      value: "",
     },
     {
       labelText: "Aprovado em",
       labelId: "author",
       readonly: true,
+      value: "",
     },
     {
       labelText: "Data de defesa",
       labelId: "author",
       readonly: true,
+      value: "",
     },
     {
       labelText: "Arquivo",
@@ -88,7 +107,7 @@ export default function ResearchForm({ btnText, action, initialData }: Props) {
 
   return (
     <div className="wflex flex-col w-full py-3 px-6 ">
-      <form className="space-y-4" action={action}>
+      <form className="space-y-4" action={onSubmitAction}>
         {config.map((item, index) => (
           <FormInput
             key={index}
@@ -102,11 +121,21 @@ export default function ResearchForm({ btnText, action, initialData }: Props) {
           />
         ))}
 
+        {initialData.file && (
+          <div className="flex gap-3 items-center">
+            <span>Arquivo atual: {initialData.file_name}</span>
+            <div className="flex gap-1">
+              <FileButton filename={initialData.file_name} type="download" />
+              <FileButton filename={initialData.file_name} type="view" />
+            </div>
+          </div>
+        )}
+
         <button
           type="submit"
           className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          {btnText}
+          {status.loading ? <Spinner size={24} color="white" /> : btnText}
         </button>
       </form>
     </div>

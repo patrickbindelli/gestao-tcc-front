@@ -1,56 +1,75 @@
 "use client";
-import useLogin from "@/hooks/client/useLogin";
-import Form from "./Form";
-import { useEffect } from "react";
+import useForm from "@/hooks/useForm";
+import { FormConfig } from "forms";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { toast } from "react-toastify";
+import BaseForm from "./BaseForm";
+
+interface LoginFormInterface {
+  email: string;
+  password: string;
+}
 
 export default function LoginForm() {
+  const handleLogin = async (formData: FormData) => {
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    await signIn("credentials", {
+      email,
+      password,
+      redirect: true,
+      callbackUrl: "/",
+    });
+  };
+
   const router = useRouter();
-  const { email, password, isLoading, isError, isSuccess, onChange, onSubmit } =
-    useLogin();
+  const { formState, status, onChange, onSubmitAction } =
+    useForm<LoginFormInterface>({ email: "", password: "" }, handleLogin);
 
   useEffect(() => {
-    if (isError) {
+    if (status.error) {
       toast.error(
         "Não foi possível realizar o login, verifique seu email/senha"
       );
     }
 
-    if (isSuccess) {
+    if (status.success) {
       toast.success("Bem vindo");
       router.push("/auth/login");
     }
-  }, [isSuccess, isError, router]);
+  }, [status, router]);
 
-  const config = [
+  const formConfig: FormConfig = [
     {
-      labelText: "Email address",
-      labelId: "email",
+      label: "Email address",
+      id: "email",
       type: "email",
-      value: email,
+      value: formState.email,
       required: true,
     },
     {
-      labelText: "Password",
-      labelId: "password",
+      label: "Password",
+      id: "password",
       type: "password",
-      value: password,
-      link: {
-        linkText: "Forgot password?",
-        linkUrl: "/password-reset",
-      },
+      value: formState.password,
+      // link: {
+      //   linkText: "Forgot password?",
+      //   linkUrl: "/password-reset",
+      // },
       required: true,
     },
   ];
 
   return (
-    <Form
-      config={config}
-      isLoading={isLoading}
+    <BaseForm
+      config={formConfig}
+      isLoading={status.loading}
       btnText="Login"
       onChange={onChange}
-      onSubmit={onSubmit}
+      onSubmit={onSubmitAction}
     />
   );
 }
