@@ -1,9 +1,15 @@
 import LoginForm from "@/components/Forms/LoginForm";
 import Link from "next/link";
-import React, { useState } from "react";
-import { signIn } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-export default function Login() {
+export default async function Login() {
+  const session = await getServerSession();
+
+  if (session) {
+    return redirect("/");
+  }
+
   return (
     <main className="flex min-h-screen flex-col bg-slate-1 items-center">
       <div className="flex flex-col w-full min-w-fit md:max-w-lg items-center justify-center px-6 py-16 gap-3 lg:px-8 ">

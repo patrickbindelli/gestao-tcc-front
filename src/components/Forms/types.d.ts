@@ -2,8 +2,8 @@ declare module "forms" {
   export type FormItem = {
     label: string;
     id: string;
-    value: string;
-    type: string;
+    value?: string;
+    type?: string;
     required?: boolean;
     readonly?: boolean;
   };

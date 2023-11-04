@@ -22,7 +22,7 @@ declare module "api" {
     access: string;
   }
 
-  interface Author {
+  interface User {
     id: number;
     name: string;
   }
@@ -42,11 +42,11 @@ declare module "api" {
 
   export interface Invite {
     id: number;
-    subject: string;
-    sender_name: string;
-    receiver_name: string;
+    type: string;
+    advisor: User;
+    advised: User;
     created_at: string;
-    status: string;
+    accepted: boolean;
     limit_date: string;
   }
 

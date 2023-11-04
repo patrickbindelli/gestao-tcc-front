@@ -41,8 +41,8 @@ declare module "default" {
     title: string;
     description: string;
     author: Author;
-    advisor_name: string;
-    subject: string;
+    advisor: Author;
+    type: string;
     approved: boolean;
     approved_at: date;
     committee: string;

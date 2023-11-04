@@ -1,6 +1,6 @@
 "use client";
 
-import useVerifyUser from "@/hooks/client/useVerifyUser";
+import useVerifyUser from "@/hooks/useVerifyUser";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "react-toastify";

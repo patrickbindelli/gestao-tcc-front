@@ -1,7 +1,7 @@
-import React from "react";
 import { Invite } from "api";
 import { format, parseISO } from "date-fns";
-
+import { Check, X } from "lucide-react";
+import Link from "next/link";
 interface Props {
   data: Invite[];
 }
@@ -19,10 +19,10 @@ export default function InvitesTable({ data }: Props) {
           <thead className="bg-slate-5 sticky border border-slate-6 top-0 text-base font-medium">
             <tr className="p-2 text-left">
               <th className="border border-slate-6 p-2">Disciplina</th>
-              <th className="border border-slate-6 p-2">Remetente</th>
+              <th className="border border-slate-6 p-2">Orientador</th>
               <th className="border border-slate-6 p-2">Data de Criação</th>
               <th className="border border-slate-6 p-2">Data Limite</th>
-              <th className="border border-slate-6 p-2">Status</th>
+              <th className="border border-slate-6 p-2">Aceito</th>
               <th className="border border-slate-6 p-2"></th>
             </tr>
           </thead>
@@ -31,10 +31,10 @@ export default function InvitesTable({ data }: Props) {
               return (
                 <tr key={index}>
                   <td className="border-b border-l border-r border-slate-5 p-2">
-                    {item.subject}
+                    {item.type}
                   </td>
                   <td className="border-b border-l border-r border-slate-5 p-2 break-words">
-                    {item.sender_name}
+                    {item.advisor.name}
                   </td>
                   <td className="border-b border-l border-r border-slate-5 p-2 whitespace-nowrap">
                     {handleDate(item.created_at)}
@@ -43,20 +43,21 @@ export default function InvitesTable({ data }: Props) {
                     {handleDate(item.limit_date)}
                   </td>
                   <td className="border-b border-l border-r border-slate-5 p-2 whitespace-nowrap">
-                    <span
-                      className={`${
-                        item.status === "Pendente"
-                          ? "text-red-9"
-                          : "text-green-9"
-                      }`}
-                    >
-                      {item.status}
+                    <span>
+                      {item.accepted ? (
+                        <Check size={20} className="text-green-9" />
+                      ) : (
+                        <X size={24} className="text-red-9" />
+                      )}
                     </span>
                   </td>
                   <td className="border border-slate-4 px-4 py-2 text-center">
-                    <button className="text-indigo-9 hover:text-indigo-10 hover:underline underline-offset-2">
+                    <Link
+                      href={`/invite/${item.id}`}
+                      className="text-indigo-9 hover:text-indigo-10 hover:underline underline-offset-2"
+                    >
                       Visualizar
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               );

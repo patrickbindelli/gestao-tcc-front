@@ -4,5 +4,5 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Toast() {
-  return <ToastContainer />;
+  return <ToastContainer theme="dark" position="bottom-left" closeOnClick />;
 }

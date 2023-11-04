@@ -1,5 +1,5 @@
 import { ResearchResponse } from "../../types/api";
-import { Columns } from "../../types/types";
+import { Columns } from "default";
 import SortableHeader from "./SortableHeader";
 import ThesisButton from "./ThesisButton";
 
@@ -33,7 +33,7 @@ export default function ThesisTable({ data, columns, edit = true }: Props) {
                     {item.author.name}
                   </td>
                   <td className="border-b border-l border-r border-slate-5 p-2 whitespace-nowrap">
-                    {item.subject}
+                    {item.type}
                   </td>
                   <td className="border-b border-l border-r border-slate-5 p-2 whitespace-nowrap">
                     {item.approved ? (
@@ -44,8 +44,7 @@ export default function ThesisTable({ data, columns, edit = true }: Props) {
                   </td>
                   <td className="border-b border-l border-r border-slate-4 p-2">
                     <div className="flex flex-col gap-1 whitespace-nowrap">
-                      <span>Responsável: {item.responsible.name}</span>
-                      <span>Orientador: {item.advisor_name}</span>
+                      <span>Orientador: {item.advisor.name}</span>
                       <span>Banca: {item.committee}</span>
                     </div>
                   </td>

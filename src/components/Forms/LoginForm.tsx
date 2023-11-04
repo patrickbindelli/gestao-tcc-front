@@ -2,7 +2,7 @@
 import useForm from "@/hooks/useForm";
 import { FormConfig } from "forms";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import BaseForm from "./BaseForm";
@@ -20,8 +20,12 @@ export default function LoginForm() {
     await signIn("credentials", {
       email,
       password,
-      redirect: true,
+      redirect: false,
       callbackUrl: "/",
+    }).then((response) => {
+      if (response?.error) {
+        throw new Error();
+      }
     });
   };
 
@@ -30,15 +34,17 @@ export default function LoginForm() {
     useForm<LoginFormInterface>({ email: "", password: "" }, handleLogin);
 
   useEffect(() => {
-    if (status.error) {
-      toast.error(
-        "Não foi possível realizar o login, verifique seu email/senha"
-      );
-    }
+    if (!status.loading) {
+      if (status.success) {
+        toast.success("Bem vindo");
+        return router.push("/");
+      }
 
-    if (status.success) {
-      toast.success("Bem vindo");
-      router.push("/auth/login");
+      if (status.error) {
+        toast.error(
+          "Não foi possível realizar o login, verifique seu email/senha"
+        );
+      }
     }
   }, [status, router]);
 

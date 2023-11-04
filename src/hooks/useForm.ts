@@ -14,7 +14,7 @@ const initialStatus: FormStatus = {
 
 export default function useForm<T>(
   initialData: T,
-  action: (formData: FormData) => Promise<void>
+  action?: (formData: FormData) => Promise<void>
 ) {
   const [formState, setFormState] = useState<T>(initialData);
   const [formStatus, setFormStatus] = useState<FormStatus>(initialStatus);
@@ -27,22 +27,24 @@ export default function useForm<T>(
   };
 
   const onSubmitAction = (formData: FormData) => {
-    setFormStatus((current) => ({ ...current, loading: true }));
+    if (action) {
+      setFormStatus((current) => ({ ...current, loading: true }));
 
-    action(formData)
-      .then(() => {
-        setFormStatus((current) => ({ ...current, success: true }));
-      })
-      .catch(() => {
-        setFormStatus((current) => ({
-          ...current,
-          success: false,
-          error: true,
-        }));
-      })
-      .finally(() => {
-        setFormStatus((current) => ({ ...current, loading: false }));
-      });
+      action(formData)
+        .then(() => {
+          setFormStatus((current) => ({ ...current, success: true }));
+        })
+        .catch(() => {
+          setFormStatus((current) => ({
+            ...current,
+            success: false,
+            error: true,
+          }));
+        })
+        .finally(() => {
+          setFormStatus((current) => ({ ...current, loading: false }));
+        });
+    }
   };
 
   return {

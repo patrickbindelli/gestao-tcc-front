@@ -32,7 +32,7 @@ export const fetchPostRequest = async <T>(
 
 export const fetchAuthenticatedPostRequest = async <T = void>(
   url: string,
-  body: any,
+  body?: any,
   customHeaders?: ApiHeaders
 ) => {
   return axiosAuthenticatedApiRequest("POST", url, body, {

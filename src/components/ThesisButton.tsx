@@ -8,7 +8,7 @@ interface Props {
 export default function ThesisButton({ id }: Props) {
   return (
     <Link
-      href={`/edit/${id}`}
+      href={`/research/${id}`}
       className="text-indigo-9 hover:text-indigo-10 hover:underline underline-offset-2"
     >
       Editar

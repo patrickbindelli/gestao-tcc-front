@@ -6,16 +6,17 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 import { Research } from "default";
-import FileButton from "./FileButton";
-import FormInput from "./FormInput";
+import { FormConfig } from "forms";
+import FileButton from "./components/FileButton";
+import FormInput from "./components/FormInput";
 
 interface Props {
   btnText: string;
-  action: (formdata: FormData) => Promise<void>;
-  initialData: Research;
+  action?: (formdata: FormData) => Promise<void>;
+  initialData: { description: string };
 }
 
-export default function ResearchForm({ btnText, action, initialData }: Props) {
+export default function DeliveryForm({ btnText, action, initialData }: Props) {
   const router = useRouter();
   const { formState, status, onChange, onSubmitAction } = useForm(
     initialData,
@@ -41,66 +42,17 @@ export default function ResearchForm({ btnText, action, initialData }: Props) {
     }
   }, [status]);
 
-  const config = [
+  const config: FormConfig = [
     {
-      labelText: "Título",
-      labelId: "title",
-      type: "text",
-      required: true,
-      value: formState.title,
-    },
-    {
-      labelText: "Descrição",
-      labelId: "description",
+      label: "Descrição",
+      id: "description",
       type: "textarea",
       required: true,
       value: formState.description,
     },
     {
-      labelText: "Autor",
-      labelId: "author",
-      readonly: true,
-      value: initialData.author.name,
-    },
-    {
-      labelText: "Orientador",
-      labelId: "author",
-      readonly: true,
-      value: initialData.advisor_name,
-    },
-    {
-      labelText: "Professor Responsável",
-      labelId: "author",
-      readonly: true,
-      value: initialData.responsible.name,
-    },
-    {
-      labelText: "Tipo",
-      labelId: "author",
-      readonly: true,
-      value: initialData.subject,
-    },
-    {
-      labelText: "Banca",
-      labelId: "author",
-      readonly: true,
-      value: "",
-    },
-    {
-      labelText: "Aprovado em",
-      labelId: "author",
-      readonly: true,
-      value: "",
-    },
-    {
-      labelText: "Data de defesa",
-      labelId: "author",
-      readonly: true,
-      value: "",
-    },
-    {
-      labelText: "Arquivo",
-      labelId: "file",
+      label: "Arquivo",
+      id: "file",
       type: "file",
     },
   ];
@@ -111,8 +63,8 @@ export default function ResearchForm({ btnText, action, initialData }: Props) {
         {config.map((item, index) => (
           <FormInput
             key={index}
-            id={item.labelId}
-            label={item.labelText}
+            id={item.id}
+            label={item.label}
             required={item.required}
             type={item.type}
             readonly={item?.readonly}
@@ -121,7 +73,7 @@ export default function ResearchForm({ btnText, action, initialData }: Props) {
           />
         ))}
 
-        {initialData.file && (
+        {/* {initialData.file && (
           <div className="flex gap-3 items-center">
             <span>Arquivo atual: {initialData.file_name}</span>
             <div className="flex gap-1">
@@ -129,7 +81,7 @@ export default function ResearchForm({ btnText, action, initialData }: Props) {
               <FileButton filename={initialData.file_name} type="view" />
             </div>
           </div>
-        )}
+        )} */}
 
         <button
           type="submit"

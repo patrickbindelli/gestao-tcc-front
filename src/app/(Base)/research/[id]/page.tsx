@@ -1,6 +1,6 @@
 import api from "@/api";
 import Container from "@/components/Container";
-import ResearchForm from "@/components/Forms/components/ResearchForm";
+import ResearchForm from "@/components/Forms/ResearchForm";
 
 interface Props {
   params: {

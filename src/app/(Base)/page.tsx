@@ -3,7 +3,7 @@ import InvitesTable from "@/components/InvitesTable";
 
 import api from "@/api";
 import ThesisTable from "@/components/ThesisTable";
-import { Columns } from "../../../types/types";
+import { Columns } from "default";
 
 export default async function Home() {
   const approved = await api.research.getApprovedResearchs();
